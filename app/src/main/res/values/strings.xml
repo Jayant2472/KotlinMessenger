@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Kotlin Messenger</string>
+
+    <string name="username_editText">Username</string>
+    <string name="email_editText">E-mail</string>
+    <string name="password_editText">Password</string>
+    <string name="register_text_button">Register</string>
+    <string name="login_text_button">Login</string>
+    <string name="have_an_account_text">Already have an account?</string>
+    <string name="create_an_account_text">Create an account....</string>
 </resources>
