@@ -8,4 +8,6 @@
     <string name="login_text_button">Login</string>
     <string name="have_an_account_text">Already have an account?</string>
     <string name="create_an_account_text">Create an account....</string>
+
+    <string name="loading">Loading…</string>
 </resources>
