@@ -21,13 +21,23 @@
         <item name="android:background">@drawable/rounded_button_register_login</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:letterSpacing">0.1</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
     <style name="textView_register_login" parent="Theme.AppCompat.Light">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="select_photo_button_register" parent="Theme.AppCompat.Light">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">monospace</item>
         <item name="android:textSize">16sp</item>
     </style>
 
