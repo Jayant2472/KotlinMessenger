@@ -28,6 +28,8 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
 
+        supportActionBar?.title = "Register"
+
         register_button_register.setOnClickListener(this)
 
         storageRef = FirebaseStorage.getInstance().reference
@@ -89,11 +91,8 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
                 if (task.isSuccessful) {
                     Log.d(TAG, "createUserWithEmail:success")
                     val user = auth.currentUser
-
                     signIn(email_editText_register.text.toString(), password_editText_register.text.toString())
                     uploadImageToFirebaseStorage()
-
-                    updateUI(user)
                 } else {
                     Log.w(TAG, "createUserWithEmail:failure", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
@@ -119,7 +118,6 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
                 if (task.isSuccessful) {
                     Log.d(TAG, "signInWithEmail:success")
                     val user = auth.currentUser
-                    updateUI(user)
                 } else {
                     Log.w(TAG, "signInWithEmail:failure", task.exception)
                     Toast.makeText(baseContext, "Authentication failed.",
@@ -166,6 +164,8 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
 
     private fun saveUserToFirebaseStorage(profileImageUrl: String) {
 
+        showProgressDialog()
+
         val uid = auth.uid ?: ""
 
         val database = FirebaseDatabase.getInstance()
@@ -177,6 +177,10 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
             .addOnSuccessListener {
 
                 Log.d(TAG, "FINAL: Saved User To Database")
+
+                updateUI(auth.currentUser)
+
+                hideProgressDialog()
 
             }
 
@@ -208,12 +212,15 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
         hideProgressDialog()
         if (user != null) {
 
-            val intent = Intent(this, HomeActivity::class.java)
+            Log.d(TAG, "User: $user")
+
+            val intent = Intent(this, LatestMessageActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
 
         } else {
 
-
+            Log.d(TAG, "User: null")
 
         }
     }
@@ -231,4 +238,8 @@ class RegisterActivity : BaseActivity(), View.OnClickListener {
 
 }
 
-class User(val uid: String, val username: String, val profileImageUrl: String)
+class User(val uid: String, val username: String, val profileImageUrl: String) {
+
+    constructor() : this("", "", "")
+
+}

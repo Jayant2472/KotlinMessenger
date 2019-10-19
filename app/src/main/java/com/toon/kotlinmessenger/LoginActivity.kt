@@ -19,6 +19,8 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        supportActionBar?.title = "Login"
+
         login_button_login.setOnClickListener(this)
 
         auth = FirebaseAuth.getInstance()
@@ -94,12 +96,15 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         hideProgressDialog()
         if (user != null) {
 
-            val intent = Intent(this, HomeActivity::class.java)
+            Log.d(TAG, "User: $user")
+
+            val intent = Intent(this, LatestMessageActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(intent)
 
         } else {
 
-
+            Log.d(TAG, "User: null")
 
         }
     }
