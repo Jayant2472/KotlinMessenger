@@ -1,16 +1,18 @@
 package com.toon.kotlinmessenger
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.squareup.picasso.Picasso
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Item
 import com.xwray.groupie.ViewHolder
 import kotlinx.android.synthetic.main.activity_new_message.*
+import kotlinx.android.synthetic.main.user_row_new_messages.view.*
 
 class NewMessageActivity : AppCompatActivity() {
 
@@ -20,13 +22,13 @@ class NewMessageActivity : AppCompatActivity() {
 
         supportActionBar?.title = "Select User"
 
-        val adapter = GroupAdapter<ViewHolder>()
-
-        adapter.add(UserItem())
-        adapter.add(UserItem())
-        adapter.add(UserItem())
-
-        recycler_view_new_message.adapter = adapter
+//        val adapter = GroupAdapter<ViewHolder>()
+//
+//        adapter.add(UserItem())
+//        adapter.add(UserItem())
+//        adapter.add(UserItem())
+//
+//        recycler_view_new_message.adapter = adapter
 
         fetchUsers()
 
@@ -36,20 +38,25 @@ class NewMessageActivity : AppCompatActivity() {
         val ref = FirebaseDatabase.getInstance().getReference("/users")
         ref.addListenerForSingleValueEvent(object : ValueEventListener{
 
-            override fun onCancelled(p0: DatabaseError) {
-            }
-
             override fun onDataChange(p0: DataSnapshot) {
+
+                Log.d("hfnkuejrhkjshfnksrjfhns", "kfhsgfwueyjgfwuyefgwuyefjgwuyefgwjhsfhjsebehehfewhewhehe")
 
                 val adapter = GroupAdapter<ViewHolder>()
 
                 p0.children.forEach{
                     Log.d("NewMessage", it.toString())
                     val user = it.getValue(User::class.java)
-                    adapter.add(UserItem())
+                    if (user != null) {
+                        adapter.add(UserItem(user))
+                    }
                 }
 
                 recycler_view_new_message.adapter = adapter
+
+            }
+
+            override fun onCancelled(p0: DatabaseError) {
 
             }
 
@@ -57,10 +64,11 @@ class NewMessageActivity : AppCompatActivity() {
     }
 
 }
-class UserItem: Item<ViewHolder>() {
+class UserItem(val user: User): Item<ViewHolder>() {
 
     override fun bind(viewHolder: ViewHolder, position: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        viewHolder.itemView.username_textView_new_message.text = user.username
+        Picasso.get().load(user.profileImageUrl).into(viewHolder.itemView.imageView_new_message_row)
     }
 
     override fun getLayout(): Int {
